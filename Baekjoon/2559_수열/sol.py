@@ -1,13 +1,15 @@
 import sys
 sys.stdin = open('input.txt')
-
-result = []
+input = sys.stdin.readline
 
 N, K = map(int, input().split())
 
 field = list(map(int, input().split()))
 
-for i in range(N-K+1):
-    result.append(sum(field[i:i+K]))
+result = []
+result.append(sum(field[:K]))
+
+for i in range(N - K):
+    result.append(result[i] - field[i] + field[K+i])
         
 print(max(result))

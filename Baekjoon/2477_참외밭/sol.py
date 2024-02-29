@@ -1,25 +1,29 @@
-import sys
-sys.stdin = open('input.txt')
-
 K = int(input())
-            #1  2  3  4
-field = [[], [],[],[],[]]
 
+#E=1, W=2, S=3, N=4
+height = []
+width = []
+total = []
+#동서쪽으로 움직이는 경우와 남북쪽으로 움직이는 경우를 나눠서 리스트에 넣어준다.
+for i in range(6):
+    dir, length = map(int, input().split())
+    if dir == 1 or dir ==2:
+        width.append(length)
+        total.append(length)
+    else:
+        height.append(length)
+        total.append(length)
 
-for _ in range(6):
-    D, N = map(int, input().split())
-    field[D].append(N)
-    
-big_temp = []
-small_temp = []
-for f in field:
-    if len(f) == 1:
-        big_temp.append(f[0])
-    elif len(f) == 2:
-        small_temp.append(min(f))
+bigbox = max(height) * max(width)
 
-result_1 = big_temp[0]*big_temp[1]
+#세로 최대값 
+maxhidx = total.index(max(height))
+#가로최대값 
+maxwidx = total.index(max(width))
 
-result_2 = small_temp[0]*small_temp[1]
+#전체 이동에서 세로 최대값의 다음값에서 세로 최대값 이전의 가로값을 빼준것이 작은 사각형의 가로값 
+small1 = abs(total[maxhidx-1] - total[(maxhidx-5 if maxhidx == 5 else maxhidx +1)])
 
-print((result_1 - result_2) * K)
+small2 = abs(total[maxwidx-1] - total[(maxwidx-5 if maxwidx == 5 else maxwidx +1)])
+area = bigbox - (small1 * small2)
+print(area*K)
